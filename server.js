@@ -1,6 +1,9 @@
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const http = require("http");
+const path = require("path");
+const { loadFilesSync } = require("@graphql-tools/load-files");
+const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
 
 // use environmental variables
 require("dotenv").config();
@@ -16,21 +19,18 @@ types - consists query / mutation/ subscription
 resolvers - function to resolve query or mutation and send data to client */
 
 // ! mark to check its not empty or null
-const typeDefs = `
-   type Query {
-       totalPosts: Int!
-   }
-`;
-
+// Go to root directory go to typeDefs folder and load all files
+const typeDefs = mergeTypeDefs(
+  loadFilesSync(path.join(__dirname, "./typeDefs"))
+);
 // resolvers
-const resolvers = {
-  Query: {
-    totalPosts: () => 42,
-  },
-};
+const resolvers = mergeResolvers(
+  loadFilesSync(path.join(__dirname, "./resolvers"))
+);
 
 // Create a graphql server
 // pass type and resolver
+// merge all files in typeDefs and pass to apollo Server
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
