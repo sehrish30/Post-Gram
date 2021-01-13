@@ -2,6 +2,7 @@ const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const http = require("http");
 const path = require("path");
+const mongoose = require("mongoose");
 const { loadFilesSync } = require("@graphql-tools/load-files");
 const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
 
@@ -10,6 +11,27 @@ require("dotenv").config();
 
 // create express server and invoke it
 const app = express();
+
+/*---------------------------------------------
+         Mongo DB
+----------------------------------------------- */
+const db = async () => {
+  try {
+    // connect requires arguments i.e url, configuration options to get rid of depcration warnings
+    const success = await mongoose.connect(process.env.DATABASE_CLOUD, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    });
+    console.log("DB Connected");
+  } catch (err) {
+    console.log("DB Connection Error", err);
+  }
+};
+
+// exceute database connection
+db();
 
 /*---------------------------------------------
          GRAPHQL SERVER
