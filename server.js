@@ -14,7 +14,7 @@ app.get("/rest", (req, res) => {
 
 // listen app on port number
 app.listen(process.env.PORT, () => {
-  console.log(`server is read at http:// ${process.env.PORT}`);
+  console.log(`server is ready at http:// ${process.env.PORT}`);
 });
 
 // Also handle start script in package.json
