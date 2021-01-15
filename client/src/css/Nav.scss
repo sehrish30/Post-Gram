@@ -1,13 +1,12 @@
+@import "./utility.scss";
+
 .nav {
   background-color: #00587a;
 }
 
-* {
-  font-family: "Libre Franklin", sans-serif;
-}
-
-a {
-  color: #e7e7de !important;
+a,
+a:hover {
+  color: color(quaternary);
 }
 
 .navbar-brand {

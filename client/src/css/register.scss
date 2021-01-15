@@ -1,0 +1,73 @@
+@import "./utility.scss";
+
+.regitser {
+  text-align: center;
+}
+
+label,
+h4 {
+  color: #e7e7de;
+}
+
+.body {
+  background: linear-gradient(to bottom, #485b7b, #2a6b73) !important;
+  height: 70rem;
+}
+
+.form {
+  text-align: left;
+}
+.box {
+  cursor: pointer;
+  background: linear-gradient(to right, #0f3057, #008891);
+  color: darken(color(quaternary), 5%);
+  --width: 200px;
+  --height: calc(var(--width) / 3);
+  width: var(--width);
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: calc(var(--height) / 2.5);
+  font-family: sans-serif;
+  letter-spacing: 0.2em;
+  border: 1px solid #9fbf9a;
+  border-radius: 2em;
+  transform: perspective(500px) rotateY(-15deg);
+  text-shadow: 6px 3px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: 0.5s;
+  position: relative;
+  overflow: hidden;
+
+  @include response(lg) {
+    --width: 180px;
+  }
+
+  @include response(md) {
+    --width: 150px;
+  }
+
+  @include response(sm) {
+    --width: 100px;
+  }
+}
+
+.box:hover {
+  transform: perspective(500px) rotateY(15deg);
+  text-shadow: -6px 3px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.box::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, #16c79a, transparent);
+  left: -100%;
+  transition: 0.5s;
+}
+
+.box:hover::before {
+  left: 100%;
+}

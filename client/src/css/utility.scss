@@ -1,0 +1,53 @@
+$colors: (
+  primary: #0f3057,
+  secondary: #00587a,
+  tertiary: #485b7b,
+  quaternary: #e7e7de,
+  fresh: #01313d,
+  lightFresh: #9fbf9a,
+);
+* {
+  font-family: "Libre Franklin", sans-serif;
+}
+
+@function color($color-name) {
+  @return map_get($colors, $color-name);
+}
+
+$font-sizes: (
+  xl: 3rem,
+  lg: 2.5rem,
+  m: 2rem,
+  sm: 1.8rem,
+  xs: 1.6rem,
+);
+
+@function size($size) {
+  @return map_get($font-sizes, $size);
+}
+
+@mixin response($breakpoint) {
+  @if ($breakpoint == xl) {
+    @media (max-width: 1200px) {
+      @content;
+    }
+  }
+
+  @if ($breakpoint == lg) {
+    @media (max-width: 1000px) {
+      @content;
+    }
+  }
+
+  @if ($breakpoint == md) {
+    @media (max-width: 760px) {
+      @content;
+    }
+  }
+
+  @if ($breakpoint == sm) {
+    @media (max-width: 560px) {
+      @content;
+    }
+  }
+}
