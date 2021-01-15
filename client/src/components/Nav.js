@@ -1,9 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { auth } from "../firebase";
+import { AuthContext } from "../context/auth";
 
 import "../css/Nav.scss";
 
 const Nav = () => {
+  const { state, dispatch } = useContext(AuthContext);
+  let history = useHistory();
+
+  const { user } = state;
+
+  const logout = () => {
+    auth.signOut();
+    dispatch({
+      type: "LOGGED_IN_USER",
+      payload: null,
+    });
+    history.push("/login");
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg nav">
@@ -36,16 +52,28 @@ const Nav = () => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/login">
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/register">
-                  Register
-                </Link>
-              </li>
+              {!user && (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/login">
+                      Login
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/register">
+                      Register
+                    </Link>
+                  </li>
+                </>
+              )}
+              {user && (
+                <li className="nav-item">
+                  <Link onClick={logout} className="nav-link">
+                    Logout
+                  </Link>
+                </li>
+              )}
+
               {/* <!-- Navbar dropdown --> */}
             </ul>
             {/* <!-- Search form --> */}
