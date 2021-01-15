@@ -1,4 +1,5 @@
-import { useReducer, createContext } from "react";
+import { useReducer, createContext, useEffect } from "react";
+import { auth } from "../firebase";
 
 /* --------------------------
            REDUCER
@@ -36,6 +37,29 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   // function that helps to update context
   const [state, dispatch] = useReducer(firebaseReducer, initialState);
+
+  // Whenever component mounts dispatch user info to populate user info
+  // this returns user info if user is logged in
+  useEffect(() => {
+    // token is Firebase Auth ID token JWT string
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const idTokenResult = await user.getIdTokenResult();
+
+        dispatch({
+          type: "LOGGED_IN_USER",
+          payload: { email: user.email, token: idTokenResult.token },
+        });
+      } else {
+        dispatch({
+          type: "LOGGED_IN_USER",
+          payload: null,
+        });
+      }
+    });
+    // cleanup
+    return () => unsubscribe();
+  }, []);
 
   // Provide state and dispatch so entire application can use it
   const value = { state, dispatch };

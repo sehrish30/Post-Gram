@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import CompleteRegisteration from "./pages/auth/CompleteRegisteration";
 
 //Import Contextnpm install node-sass@4.14.1
 import { AuthProvider } from "./context/auth";
@@ -26,6 +27,10 @@ const App = () => {
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
+        <Route
+          path="/complete-registeration"
+          component={CompleteRegisteration}
+        />
       </Switch>
     </ApolloProvider>
   );
