@@ -61,7 +61,7 @@ const Register = () => {
         </div>
         <div className="text-center">
           <button className="mt-4 box text-center" disabled={!email || loading}>
-            Submit
+            Register
           </button>
         </div>
       </form>

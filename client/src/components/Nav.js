@@ -68,7 +68,7 @@ const Nav = () => {
               )}
               {user && (
                 <li className="nav-item">
-                  <Link onClick={logout} className="nav-link">
+                  <Link to="/login" onClick={logout} className="nav-link">
                     Logout
                   </Link>
                 </li>
