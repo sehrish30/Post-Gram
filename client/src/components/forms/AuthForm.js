@@ -4,33 +4,41 @@ const AuthForm = ({
   email,
   password,
   loading,
-  setEmail,
+  setEmail = "",
   setPassword,
   handleSubmit,
   showPasswordInput = false,
   name,
   disable,
+  hideEmailInput = false,
 }) => {
   return (
     <form className="form" onSubmit={handleSubmit}>
       <div className="form-group">
-        <label>Email Address</label>
         {disable ? (
-          <input
-            className="form-control"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled
-          />
+          <>
+            <label>Email Address</label>
+            <input
+              className="form-control"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled
+            />
+          </>
         ) : (
-          <input
-            className="form-control"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={loading}
-          />
+          !hideEmailInput && (
+            <>
+              <label>Email Address</label>
+              <input
+                className="form-control"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+              />
+            </>
+          )
         )}
       </div>
       {showPasswordInput && (
@@ -46,10 +54,7 @@ const AuthForm = ({
         </div>
       )}
       <div className="text-center">
-        <button
-          className="mt-4 mb-4 box text-center"
-          disabled={!email || loading}
-        >
+        <button className="mt-4 mb-4 box text-center" disabled={loading}>
           {name}
         </button>
       </div>

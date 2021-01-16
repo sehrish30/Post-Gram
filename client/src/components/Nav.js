@@ -54,7 +54,7 @@ const Nav = () => {
                     aria-current="page"
                     to="/profile"
                   >
-                    Profile
+                    {user?.email.split("@")[0]}
                   </Link>
                 </li>
               )}
