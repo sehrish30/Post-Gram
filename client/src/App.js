@@ -10,6 +10,11 @@ import Nav from "./components/Nav";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import CompleteRegisteration from "./pages/auth/CompleteRegisteration";
+import PrivateRoute from "./components/PrivateRoute";
+import PasswordUpdate from "./pages/auth/PasswordUpdate";
+import Post from "./pages/post/Post";
+import Profile from "./pages/Profile";
+import PasswordForgot from "./pages/auth/PasswordForgot";
 
 //Import Contextnpm install node-sass@4.14.1
 import { AuthContext } from "./context/auth";
@@ -55,10 +60,18 @@ const App = () => {
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/password/forgot" component={PasswordForgot} />
         <Route
           path="/complete-registeration"
           component={CompleteRegisteration}
         />
+        <PrivateRoute
+          exact
+          path="/password/update"
+          component={PasswordUpdate}
+        />
+        <PrivateRoute exact path="/post/create" component={Post} />
+        <PrivateRoute exact path="/profile" component={Profile} />
       </Switch>
     </ApolloProvider>
   );

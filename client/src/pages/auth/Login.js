@@ -55,7 +55,7 @@ const Login = () => {
 
     // send user info to our server to either update or create user
     userCreate();
-    history.push("/");
+    history.push("/profile");
   };
 
   const googleLogin = () => {
@@ -80,8 +80,6 @@ const Login = () => {
           // Update Context
           updateContext(result);
         });
-
-      history.push("/");
     } catch (err) {
       console.log("Login error", err);
       toast.error(err.message);

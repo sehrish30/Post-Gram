@@ -47,11 +47,17 @@ const Nav = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {/* <!-- Left links --> */}
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item nav-color">
-                <Link className="nav-link active" aria-current="page" to="/">
-                  Home
-                </Link>
-              </li>
+              {user && (
+                <li className="nav-item nav-color">
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/profile"
+                  >
+                    Profile
+                  </Link>
+                </li>
+              )}
               {!user && (
                 <>
                   <li className="nav-item">
