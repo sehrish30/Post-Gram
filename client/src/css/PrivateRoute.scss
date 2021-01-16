@@ -1,0 +1,40 @@
+@import "./utility.scss";
+
+.side-nav {
+  background-color: color(primary);
+}
+
+.side {
+  background: linear-gradient(
+    26deg,
+    #0f3057 17.74%,
+    #00587a 17.74%,
+    #00587a 33.87%,
+    #2a6b73 33.87%,
+    #2a6b73 50%,
+    #0f3057 50%,
+    #0f3057 67.74%,
+    #00587a 67.74%,
+    #00587a 83.87%,
+    #2a6b73 83.87%,
+    #2a6b73 100%
+  );
+  background-size: 141.43px 68.98px;
+  height: 50rem;
+
+  @include response(md) {
+    height: 10rem;
+  }
+}
+
+.active-nav,
+.active-password,
+.active-post {
+  background-color: color(lightFresh);
+  color: color(fresh);
+  font-weight: bold;
+}
+
+.container {
+  padding-left: 0 !important;
+}

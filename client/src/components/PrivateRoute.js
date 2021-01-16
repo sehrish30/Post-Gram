@@ -3,11 +3,15 @@ import React, { useState, useEffect, useContext } from "react";
 import { Route, Link } from "react-router-dom";
 import { AuthContext } from "../context/auth";
 import Loader from "./Loader";
+import "../css/PrivateRoute.scss";
+import { useLocation } from "react-router-dom";
+import classNames from "classnames";
 
 const PrivateRoute = ({ children, ...rest }) => {
   const { state } = useContext(AuthContext);
   // by default user isnot available
   const [user, setUser] = useState(false);
+  let location = useLocation();
 
   useEffect(() => {
     if (state.user) {
@@ -15,21 +19,43 @@ const PrivateRoute = ({ children, ...rest }) => {
     }
   }, [state.user]);
 
+  if (location.pathname === "/post/create") {
+    console.log(location.pathname);
+  }
+
+  /* DYNAMIC CLASSES */
+  const ProfileLink = classNames({
+    "nav-link": true,
+    "active-nav": location.pathname === "/profile",
+  });
+  const postLink = classNames({
+    "nav-link": true,
+    "active-password": location.pathname === "/post/create",
+  });
+  const updateLink = classNames({
+    "nav-link": true,
+    "active-post": location.pathname === "/password/update" ? true : false,
+  });
+
   const navLinks = () => (
-    <nav>
-      <ul className="nav flex-column">
-        <li className="nav-item">
-          <Link className="nav-link" aria-current="page" to="/profile">
+    <nav className="ml-0">
+      <ul className="nav flex-column side-nav">
+        <li>
+          <Link className={ProfileLink} aria-current="page" to="/profile">
             Profile
           </Link>
         </li>
-        <li className="nav-item">
-          <Link className="nav-link" aria-current="page" to="/password/update">
+        <li>
+          <Link
+            className={updateLink}
+            aria-current="page"
+            to="/password/update"
+          >
             Password
           </Link>
         </li>
-        <li className="nav-item">
-          <Link className="nav-link" aria-current="page" to="/post/create">
+        <li>
+          <Link className={postLink} aria-current="page" to="/post/create">
             Post
           </Link>
         </li>
@@ -38,13 +64,13 @@ const PrivateRoute = ({ children, ...rest }) => {
   );
 
   const renderContent = () => (
-    <div className="container-fluid pt-5">
+    <div className="container-fluid p-0 ">
       <div className="row">
-        <div className="col-md-4">{navLinks()}</div>
+        <div className="col-md-3 p-0 side">{navLinks()}</div>
 
         {/* Update contents dynamically when user goes 
         on this route update particular component */}
-        <div className="col-md-8">
+        <div className="col-md-9">
           <Route {...rest} />
         </div>
       </div>
