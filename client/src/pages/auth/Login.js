@@ -4,6 +4,12 @@ import Toast from "../../components/Toast";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
+// Components
+import AuthForm from "../../components/forms/AuthForm.js";
+
+// Mutations
+import { gql, useMutation } from "@apollo/client";
+
 import {
   FacebookLoginButton,
   GoogleLoginButton,
@@ -20,10 +26,22 @@ import "../../css/register.scss";
 const Login = () => {
   const { dispatch } = useContext(AuthContext);
 
+  const USER_CREATE = gql`
+    mutation userCreate {
+      userCreate {
+        username
+        email
+      }
+    }
+  `;
+
   let history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Mutation
+  const [userCreate] = useMutation(USER_CREATE);
 
   const updateContext = async (result) => {
     const { user } = result;
@@ -34,6 +52,10 @@ const Login = () => {
       type: "LOGGED_IN_USER",
       payload: { email: user.email, token: idTokenResult.token },
     });
+
+    // send user info to our server to either update or create user
+    userCreate();
+    history.push("/");
   };
 
   const googleLogin = () => {
@@ -59,7 +81,6 @@ const Login = () => {
           updateContext(result);
         });
 
-      // send user info to our server to either update or create user
       history.push("/");
     } catch (err) {
       console.log("Login error", err);
@@ -73,36 +94,16 @@ const Login = () => {
       <Toast />
       <div className="row">
         <div className="col-md-8">
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Email Address</label>
-              <input
-                className="form-control"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
-              />
-            </div>
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                className="form-control"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={loading}
-              />
-            </div>
-            <div className="text-center">
-              <button
-                className="mt-4 box text-center"
-                disabled={!email || !password || loading}
-              >
-                Login
-              </button>
-            </div>
-          </form>
+          <AuthForm
+            email={email}
+            password={password}
+            setEmail={setEmail}
+            setPassword={setPassword}
+            showPasswordInput={true}
+            name="Login"
+            loading={loading}
+            handleSubmit={handleSubmit}
+          />
         </div>
         <div className="col-md-4 mt-4">
           <FacebookLoginButton size="40px" onClick={facebookLogin} />

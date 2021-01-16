@@ -9,21 +9,25 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       index: true,
+      unique: true,
     },
     name: {
       type: String,
     },
     email: {
-      type: String.fromCharCode,
+      type: String,
       required: true,
       index: true,
+      unique: true,
     },
     images: {
       type: Array,
-      default: {
-        url: "https://via.placeholder.com/200*200.png?text=Profile",
-        public_id: Date.now,
-      },
+      default: [
+        {
+          url: "https://via.placeholder.com/200*200.png?text=Profile",
+          public_id: Date.now,
+        },
+      ],
     },
     about: {
       type: String,

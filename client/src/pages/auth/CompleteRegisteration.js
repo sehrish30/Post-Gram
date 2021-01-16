@@ -16,6 +16,19 @@ import { AuthContext } from "../../context/auth";
 import Loader from "../../components/Loader";
 import Toast from "../../components/Toast";
 
+// Mutations
+import { gql, useMutation } from "@apollo/client";
+import AuthForm from "../../components/forms/AuthForm.js";
+
+const USER_CREATE = gql`
+  mutation userCreate {
+    userCreate {
+      username
+      email
+    }
+  }
+`;
+
 const CompleteRegisteration = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,8 +41,10 @@ const CompleteRegisteration = () => {
     setEmail(localStorage.getItem("emailForRegisteration"));
   }, [history]);
 
-  // Validation
+  // Mutation
+  const [userCreate] = useMutation(USER_CREATE);
 
+  // Validation
   const { handleSubmitErrors } = useFormValidation(
     { email, password },
     ValidateRegisteration
@@ -83,7 +98,9 @@ const CompleteRegisteration = () => {
           },
         });
         history.push("/");
-        //**MAKE API req to save user in mongodb **/
+
+        //MAKE API req to save user in mongodb
+        userCreate();
       }
 
       toast(`Successfully Registered`, {
@@ -103,33 +120,18 @@ const CompleteRegisteration = () => {
       {loading ? <Loader loading={loading} /> : <h4>Complete Registeration</h4>}
 
       <Toast />
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            className="form-control"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled
-          />
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            className="form-control"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={loading}
-          />
-        </div>
-        <div className="text-center">
-          <button className="mt-4 box text-center" disabled={!email || loading}>
-            Submit
-          </button>
-        </div>
-      </form>
+
+      <AuthForm
+        email={email}
+        password={password}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        showPasswordInput={true}
+        name="Login"
+        loading={loading}
+        handleSubmit={handleSubmit}
+        disable={true}
+      />
     </div>
   );
 };

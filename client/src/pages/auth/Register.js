@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "../../css/register.scss";
 import Toast from "../../components/Toast.js";
 import Loader from "../../components/Loader.js";
+import AuthForm from "../../components/forms/AuthForm.js";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -48,23 +49,14 @@ const Register = () => {
       {loading ? <Loader loading={loading} /> : <h4>Register</h4>}
 
       <Toast />
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Email Address</label>
-          <input
-            className="form-control"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={loading}
-          />
-        </div>
-        <div className="text-center">
-          <button className="mt-4 box text-center" disabled={!email || loading}>
-            Register
-          </button>
-        </div>
-      </form>
+
+      <AuthForm
+        email={email}
+        loading={loading}
+        setEmail={setEmail}
+        handleSubmit={handleSubmit}
+        name={"Register"}
+      />
     </div>
   );
 };
