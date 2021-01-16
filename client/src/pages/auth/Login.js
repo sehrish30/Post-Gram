@@ -82,7 +82,11 @@ const Login = () => {
         });
     } catch (err) {
       console.log("Login error", err);
-      toast.error(err.message);
+      toast.error(err.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 3000,
+        draggablePercent: 60,
+      });
       setLoading(false);
     }
   };
@@ -102,7 +106,9 @@ const Login = () => {
             loading={loading}
             handleSubmit={handleSubmit}
           />
+          <Link to="/password/forgot">Forgot Password?</Link>
         </div>
+
         <div className="col-md-4 mt-4">
           <FacebookLoginButton size="40px" onClick={facebookLogin} />
           <GoogleLoginButton size="40px" onClick={googleLogin} />

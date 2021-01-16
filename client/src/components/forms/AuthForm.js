@@ -46,7 +46,10 @@ const AuthForm = ({
         </div>
       )}
       <div className="text-center">
-        <button className="mt-4 box text-center" disabled={!email || loading}>
+        <button
+          className="mt-4 mb-4 box text-center"
+          disabled={!email || loading}
+        >
           {name}
         </button>
       </div>
