@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <div className="container">
       <div className="row p-5">
-        {data.allPosts.map((p) => (
+        {data?.allPosts.map((p) => (
           <div className="col-md-4" key={p.id}>
             <div className="card">
               <div className="card-body">

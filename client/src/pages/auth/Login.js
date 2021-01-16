@@ -3,6 +3,7 @@ import Loader from "../../components/Loader";
 import Toast from "../../components/Toast";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import {
   FacebookLoginButton,
   GoogleLoginButton,
@@ -110,6 +111,15 @@ const Login = () => {
       </div>
       <div className="row text-center">
         {loading ? <Loader loading={loading} /> : null}
+      </div>
+      <div className="row background mt-4">
+        <div className="col-md-12">
+          <img
+            className="background-img"
+            src={"../../../watery.png"}
+            alt="watery background"
+          />
+        </div>
       </div>
     </div>
   );

@@ -71,3 +71,9 @@ h4 {
 .box:hover::before {
   left: 100%;
 }
+
+.background {
+  &-img {
+    width: 40rem;
+  }
+}

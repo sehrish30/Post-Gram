@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const { loadFilesSync } = require("@graphql-tools/load-files");
 const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
 
+const { authCheck } = require("./helpers/auth");
+
 // use environmental variables
 require("dotenv").config();
 
@@ -53,9 +55,11 @@ const resolvers = mergeResolvers(
 // Create a graphql server
 // pass type and resolver
 // merge all files in typeDefs and pass to apollo Server
+// context makes req and res available to resolvers
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req, res }) => ({ req, res }),
 });
 
 /* Apply express app as middleware to appolo server
@@ -69,7 +73,9 @@ apolloServer.applyMiddleware({
 const httpserver = http.createServer(app);
 
 // rest endpoint
-app.get("/rest", (req, res) => {
+// when authCheck is true next() will execute res.json line
+// when authCheck throws error res.json() wont get executed
+app.get("/rest", authCheck, (req, res) => {
   res.json({
     data: "you hit rest endpoint",
   });

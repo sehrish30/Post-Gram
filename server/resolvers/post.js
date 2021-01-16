@@ -1,5 +1,6 @@
 const { gql } = require("apollo-server-express");
 const { posts } = require("../temp");
+const { authCheck } = require("../helpers/auth");
 
 /*--------------------------
        Queries
@@ -9,7 +10,11 @@ const { posts } = require("../temp");
 const totalPosts = () => posts.length;
 
 // return array of posts
-const allPosts = () => posts;
+const allPosts = async (parents, args, { req }) => {
+  debugger;
+  await authCheck(req);
+  return posts;
+};
 
 /*--------------------------
        Mutation
@@ -19,7 +24,6 @@ const allPosts = () => posts;
 // args -> e.g args.title but you can also destructure it
 const newPost = (parent, args, context) => {
   // create a new post Object
-
 
   const post = {
     id: posts.length + 1,
