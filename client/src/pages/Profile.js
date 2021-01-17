@@ -1,13 +1,17 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import { toast } from "react-toastify";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import Toast from "../components/Toast";
+import Resizer from "react-image-file-resizer";
+import axios from "axios";
 
 import "../css/register.scss";
 import { PROFILE } from "../components/graphql/queries";
 import { USER_UPDATE } from "../components/graphql/mutations";
+import { AuthContext } from "../context/auth";
 
 const Profile = () => {
+  const { state } = useContext(AuthContext);
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -36,8 +40,9 @@ const Profile = () => {
           }
           return object;
         }, {});
-        images = newImages;
+        images = [newImages];
       });
+
       setValues({
         ...values,
         username,
@@ -79,7 +84,60 @@ const Profile = () => {
   // in the server we have upload images end point that will
   // upload to cloudinary and as a response get url that url
   // we send to client as well
-  const fileResizeAndUpload = () => {};
+  const fileResizeAndUpload = (event) => {
+    let fileInput = false;
+    if (event.target.files[0]) {
+      fileInput = true;
+    }
+    if (fileInput) {
+      try {
+        Resizer.imageFileResizer(
+          event.target.files[0],
+          300,
+          300,
+          "JPEG",
+          100,
+          0,
+          (uri) => {
+            axios
+              .post(
+                `${process.env.REACT_APP_REST_ENDPOINT}/uploadimages`,
+                {
+                  image: uri,
+                },
+                {
+                  headers: {
+                    authtoken: state.user.token,
+                  },
+                }
+              )
+              .then((response) => {
+                setLoading(false);
+                console.log("CLOUDINARY UPLOAD", response);
+
+                // response.data will have url and public id
+
+                setValues({
+                  ...values,
+                  images: [...values.images, response.data],
+                });
+                console.log("VALUES", values);
+              })
+              .catch((error) => {
+                setLoading(false);
+                console.log("CLOUDINARY UPLOAD FAILED", error);
+              });
+            // this.setState({ newImage: uri });
+          },
+          "base64",
+          200,
+          200
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   const profileUpdateForm = () => (
     <form onSubmit={handleSubmit} className="row g-3 mt-4">

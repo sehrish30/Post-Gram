@@ -113,6 +113,7 @@ app.post("/uploadimages", authCheckMiddleware, (req, res) => {
   cloudinary.uploader.upload(
     req.body.image,
     (result) => {
+      console.log(result);
       res.send({
         url: result.url,
         public_id: result.public_id,
