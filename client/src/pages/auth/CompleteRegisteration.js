@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import ValidateRegisteration from "../../components/validations/ValidateRegisteration.js";
+import { USER_CREATE } from "../../components/graphql/mutations";
 
 // Firebase
 import { auth } from "../../firebase";
@@ -17,17 +18,8 @@ import Loader from "../../components/Loader";
 import Toast from "../../components/Toast";
 
 // Mutations
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import AuthForm from "../../components/forms/AuthForm.js";
-
-const USER_CREATE = gql`
-  mutation userCreate {
-    userCreate {
-      username
-      email
-    }
-  }
-`;
 
 const CompleteRegisteration = () => {
   const [email, setEmail] = useState("");

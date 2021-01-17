@@ -3,12 +3,13 @@ import Loader from "../../components/Loader";
 import Toast from "../../components/Toast";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { USER_CREATE } from "../../components/graphql/mutations";
 
 // Components
 import AuthForm from "../../components/forms/AuthForm.js";
 
 // Mutations
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import {
   FacebookLoginButton,
@@ -25,15 +26,6 @@ import "../../css/register.scss";
 
 const Login = () => {
   const { dispatch } = useContext(AuthContext);
-
-  const USER_CREATE = gql`
-    mutation userCreate {
-      userCreate {
-        username
-        email
-      }
-    }
-  `;
 
   let history = useHistory();
   const [email, setEmail] = useState("");

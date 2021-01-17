@@ -2,13 +2,15 @@ const { gql } = require("apollo-server-express");
 const { authCheck } = require("../helpers/auth");
 const User = require("../models/user");
 const shortid = require("shortid");
+const { DateTimeResolver } = require("graphql-scalars");
 
 // grab the cocntext req and res
 // context also passed in graphql apollo server
-const me = async (parent, args, { req }) => {
+// it is context.req which we have destructured
+const profile = async (parent, args, { req }) => {
   // if authcheck returns then execute return statement here
-  await authCheck(req);
-  return "SEhrish";
+  const currentUser = await authCheck(req);
+  return await User.findOne({ email: currentUser.email }).exec();
 };
 
 const userCreate = async (parent, args, { req }) => {
@@ -28,11 +30,49 @@ const userCreate = async (parent, args, { req }) => {
       }).save();
 };
 
+const userUpdate = async (parent, args, { req }) => {
+  // Gives us all user details
+  // check to see logged in user
+  const currentUser = await authCheck(req);
+
+  // second argument is the one what will be placed at updated field
+  // new: true means send new info back to client
+  // exec gives us the promise when resolved give us data
+  // Updated User is User return type in typeDef
+  console.log(args, currentUser.email);
+  const updatedUser = await User.findOneAndUpdate(
+    { email: currentUser.email },
+    { ...args.input },
+    { new: true }
+  ).exec();
+  return updatedUser;
+};
+
 module.exports = {
   Query: {
-    me,
+    profile,
   },
   Mutation: {
     userCreate,
+    userUpdate,
   },
 };
+
+// To run this userUpdate in Graphql we will use
+// mutation userUpdate($input: UserUpdateInput) {
+//   userUpdate(input: $input) {
+//     _id
+//     name
+//     about
+//     username
+//   }
+// }
+
+// and in Query Variables button below click that and paste
+// {
+//   "input": {
+//     "name": "Sehrish",
+//     "about": "Heloooodfdf gfgd",
+//     "username": "SSS"
+//   }
+// }

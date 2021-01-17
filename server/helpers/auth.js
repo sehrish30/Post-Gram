@@ -19,3 +19,20 @@ exports.authCheck = async (req) => {
     throw new Error("Invalid or expired token");
   }
 };
+
+// Check if user is logged in to protect routes
+exports.authCheckMiddleware = (req, res, next) => {
+  // token will be sent in headers by axios
+  if (req.headers.authtoken) {
+    // check the token from firebase (verifyIdToken) if valid go to next which is callback
+    admin
+      .auth()
+      .verifyIdToken(req.headers.authtoken)
+      .then((result) => {
+        next();
+      })
+      .catch((err) => console.log(err));
+  } else {
+    res.json({ error: "Unauthorized" });
+  }
+};

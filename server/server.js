@@ -5,8 +5,11 @@ const path = require("path");
 const mongoose = require("mongoose");
 const { loadFilesSync } = require("@graphql-tools/load-files");
 const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const cloudinary = require("cloudinary");
 
-const { authCheck } = require("./helpers/auth");
+const { authCheckMiddleware } = require("./helpers/auth");
 
 // use environmental variables
 require("dotenv").config();
@@ -34,6 +37,17 @@ const db = async () => {
 
 // exceute database connection
 db();
+
+// middlewares
+app.use(cors());
+
+// Controls the maximum request body size
+// the value is passed to the bytes library for parsing
+app.use(
+  bodyParser.json({
+    limit: "5mb",
+  })
+);
 
 /*---------------------------------------------
          GRAPHQL SERVER
@@ -75,9 +89,52 @@ const httpserver = http.createServer(app);
 // rest endpoint
 // when authCheck is true next() will execute res.json line
 // when authCheck throws error res.json() wont get executed
-app.get("/rest", authCheck, (req, res) => {
-  res.json({
-    data: "you hit rest endpoint",
+// app.get("/rest", authCheck, (req, res) => {
+//   res.json({
+//     data: "you hit rest endpoint",
+//   });
+// });
+
+// CLOUDINARY CONFIG
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+/* On Client side we will resize data and 
+  send binary data back to the server on this end point
+  this function will upload to cloudinary and give us response
+  scaffolded in 2 argument */
+app.post("/uploadimages", authCheckMiddleware, (req, res) => {
+  // first argument will be image and
+  // third argument for public view info (public name & resource type)
+  // req.body.image binary data of image
+  cloudinary.uploader.upload(
+    req.body.image,
+    (result) => {
+      res.send({
+        url: result.url,
+        public_id: result.public_id,
+      });
+    },
+    {
+      public_id: `${Date.now()}`, // public name
+      resource_type: "auto", //JPEG, PNG
+    }
+  );
+});
+
+/* When we store image we store its public id so 
+   when user wants to delete he sends this to cloudinary
+   to remove this public_id  */
+app.post("/removeimage", authCheckMiddleware, (req, res) => {
+  // all needed is image_id to del image in cloudinary
+  let image_id = req.body.public_id;
+
+  cloudinary.uploader.destroy(image_id, (error, result) => {
+    if (error) return res.json({ success: false, error });
+    res.send("ok", result);
   });
 });
 
