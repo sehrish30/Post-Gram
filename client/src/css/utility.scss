@@ -15,11 +15,11 @@ $colors: (
 }
 
 $font-sizes: (
-  xl: 3rem,
-  lg: 2.5rem,
-  m: 2rem,
-  sm: 1.8rem,
-  xs: 1.6rem,
+  xl: 2.2rem,
+  lg: 2rem,
+  md: 1.8rem,
+  sm: 1.2rem,
+  xs: 1rem,
 );
 
 @function size($size) {

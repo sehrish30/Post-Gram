@@ -1,0 +1,47 @@
+@import "./utility.scss";
+.user {
+  background-color: color(primary);
+  margin: 1rem;
+  color: color(lightFresh);
+  font-size: size(sm);
+  border-radius: 1rem;
+  // cursor image should be of size 50*50
+
+  &-name {
+    font-weight: bold;
+  }
+
+  &-click {
+    cursor: url("../images/cursor1.png") 10 3, auto;
+  }
+}
+
+small {
+  font-size: size(xs);
+  color: color(lightFresh);
+  font-style: italic;
+}
+
+.main-card {
+  &::after {
+    content: "";
+    background: color(primary) url("../images/waves.png") no-repeat;
+    opacity: 0.6;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+.image {
+  max-width: 50%;
+  object-fit: contain;
+}
+
+.list-group-item {
+  background-color: color(primary);
+  font-size: size(sm);
+}

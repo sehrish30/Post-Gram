@@ -1,13 +1,11 @@
-import { useQuery, gql, useLazyQuery } from "@apollo/client";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import { useContext } from "react";
-import { useHistory } from "react-router-dom";
 
 // Context
 import { AuthContext } from "../context/auth";
 import { GET_ALL_POSTS } from "../components/graphql/queries";
 
 const Home = () => {
-  const history = useHistory();
   // Return all posts query
   const { data, loading, error } = useQuery(GET_ALL_POSTS);
 

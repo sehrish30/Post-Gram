@@ -16,10 +16,11 @@ import Post from "./pages/post/Post";
 import Profile from "./pages/Profile";
 import PasswordForgot from "./pages/auth/PasswordForgot";
 import PublicRoute from "./components/PublicRoute";
+import Users from "./pages/Users";
+import SingleUser from "./pages/SingleUser";
 
 //Import Contextnpm install node-sass@4.14.1
 import { AuthContext } from "./context/auth";
-import Users from "./pages/Users";
 
 console.log(process.env.REACT_APP_GRAPHQL_ENDPOINT);
 
@@ -75,6 +76,7 @@ const App = () => {
         />
         <PrivateRoute exact path="/post/create" component={Post} />
         <PrivateRoute exact path="/profile" component={Profile} />
+        <Route exact path="/user/:username" component={SingleUser} />
       </Switch>
     </ApolloProvider>
   );
