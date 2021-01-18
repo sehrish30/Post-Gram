@@ -80,7 +80,7 @@ const PrivateRoute = ({ children, ...rest }) => {
   return user ? (
     renderContent()
   ) : (
-    <div className="text-center mt-4">
+    <div className="text-center mt-4 ">
       <Loader />
     </div>
   );
