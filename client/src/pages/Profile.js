@@ -31,25 +31,26 @@ const Profile = () => {
   useMemo(() => {
     if (data) {
       let { username, email, name, about, images } = data.profile;
-
+      values.images = [];
       images.map((image) => {
         // Remove __typename property
-        const newImages = Object.keys(image).reduce((object, key) => {
+        const newValue = Object.keys(image).reduce((object, key) => {
           if (key !== "__typename") {
             object[key] = image[key];
           }
           return object;
         }, {});
-        images = [newImages];
+
+        values.images.push(newValue);
       });
 
+      // not updating images because already mutated
       setValues({
         ...values,
         username,
         email,
         name,
         about,
-        images,
       });
     }
   }, [data]);
@@ -187,21 +188,7 @@ const Profile = () => {
           />
         </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="image" className="col-sm-2 mt-0 col-form-label">
-          Image
-        </label>
-        <div className="col-sm-10 ">
-          <input
-            type="file"
-            name="image"
-            accept="image//*"
-            className="form-control"
-            value={values.image}
-            onChange={fileResizeAndUpload}
-          />
-        </div>
-      </div>
+
       <div className="form-group">
         <label htmlFor="about" className="col-sm-2 mt-0 col-form-label">
           About
@@ -227,7 +214,41 @@ const Profile = () => {
       </div>
     </form>
   );
-  return <h4>{profileUpdateForm()}</h4>;
+  return (
+    <div className="container p-5">
+      <div className="row">
+        <div className="col-lg-4">
+          <div className="form-group">
+            <label htmlFor="image" className="col-sm-2 mt-0 col-form-label">
+              Image
+            </label>
+            <div className="col-sm-10 ">
+              <input
+                type="file"
+                name="image"
+                accept="image//*"
+                className="form-control"
+                value={values.image}
+                onChange={fileResizeAndUpload}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-8 pt-4">
+          {values.images.map((image) => (
+            <img
+              src={image.url}
+              key={image.public_id}
+              alt="Uploaded posts"
+              style={{ height: "100px" }}
+              className="float-right p-2"
+            />
+          ))}
+        </div>
+      </div>
+      {profileUpdateForm()}
+    </div>
+  );
 };
 
 export default Profile;

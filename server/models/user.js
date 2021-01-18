@@ -24,7 +24,8 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [
         {
-          url: "https://via.placeholder.com/200*200.png?text=Profile",
+          url:
+            "https://i.pinimg.com/236x/95/5d/d2/955dd2db859436396be4437513805145.jpg",
           public_id: Date.now,
         },
       ],
