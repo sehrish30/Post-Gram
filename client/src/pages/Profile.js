@@ -68,6 +68,34 @@ const Profile = () => {
     },
   });
 
+  const handleImageRemove = async (public_id) => {
+    setLoading(true);
+    try {
+      // must send headers for authCheckMiddleware
+      const response = await axios.post(
+        `${process.env.REACT_APP_REST_ENDPOINT}/removeimage`,
+        {
+          public_id,
+        },
+        {
+          headers: {
+            authtoken: state.user.token,
+          },
+        }
+      );
+      if (response) {
+        setLoading(false);
+        let filteredImages = values.images.filter((item) => {
+          return item.public_id !== public_id;
+        });
+        setValues({ ...values, images: filteredImages });
+      }
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -228,7 +256,6 @@ const Profile = () => {
                 name="image"
                 accept="image//*"
                 className="form-control"
-                value={values.image}
                 onChange={fileResizeAndUpload}
               />
             </div>
@@ -242,6 +269,7 @@ const Profile = () => {
               alt="Uploaded posts"
               style={{ height: "100px" }}
               className="float-right p-2"
+              onClick={() => handleImageRemove(image.public_id)}
             />
           ))}
         </div>
