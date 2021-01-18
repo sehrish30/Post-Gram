@@ -15,6 +15,7 @@ import PasswordUpdate from "./pages/auth/PasswordUpdate";
 import Post from "./pages/post/Post";
 import Profile from "./pages/Profile";
 import PasswordForgot from "./pages/auth/PasswordForgot";
+import PublicRoute from "./components/PublicRoute";
 
 //Import Contextnpm install node-sass@4.14.1
 import { AuthContext } from "./context/auth";
@@ -58,8 +59,8 @@ const App = () => {
       <Nav />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login" component={Login} />
+        <PublicRoute exact path="/register" component={Register} />
+        <PublicRoute exact path="/login" component={Login} />
         <Route exact path="/password/forgot" component={PasswordForgot} />
         <Route
           path="/complete-registeration"

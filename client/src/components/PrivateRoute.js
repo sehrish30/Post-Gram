@@ -2,12 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { Route, Link } from "react-router-dom";
 import { AuthContext } from "../context/auth";
-import Loader from "./Loader";
+
 import "../css/PrivateRoute.scss";
 import { useLocation } from "react-router-dom";
 import classNames from "classnames";
+import LoadingToRedirect from "./LoadingToRedirect";
 
-const PrivateRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ ...rest }) => {
   const { state } = useContext(AuthContext);
   // by default user isnot available
   const [user, setUser] = useState(false);
@@ -81,7 +82,7 @@ const PrivateRoute = ({ children, ...rest }) => {
     renderContent()
   ) : (
     <div className="text-center mt-4 ">
-      <Loader />
+      <LoadingToRedirect path="/login" />
     </div>
   );
 };
