@@ -4,16 +4,7 @@ import { useHistory } from "react-router-dom";
 
 // Context
 import { AuthContext } from "../context/auth";
-
-const GET_ALL_POSTS = gql`
-  {
-    allPosts {
-      id
-      title
-      description
-    }
-  }
-`;
+import { GET_ALL_POSTS } from "../components/graphql/queries";
 
 const Home = () => {
   const history = useHistory();
@@ -21,7 +12,7 @@ const Home = () => {
   const { data, loading, error } = useQuery(GET_ALL_POSTS);
 
   // access Context from value in AuthContext.provider
-  const { state, dispatch } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
 
   // To avoid naming conflicts change variables name using :
   const [

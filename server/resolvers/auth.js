@@ -48,9 +48,17 @@ const userUpdate = async (parent, args, { req }) => {
   return updatedUser;
 };
 
+const publicProfile = async (parent, args, { req }) => {
+  return await User.findOne({ username: args.username }).exec();
+};
+
+const allUsers = async (parent, args) => await User.find({}).exec();
+
 module.exports = {
   Query: {
     profile,
+    publicProfile,
+    allUsers,
   },
   Mutation: {
     userCreate,

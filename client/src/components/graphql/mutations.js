@@ -1,4 +1,4 @@
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { USER_INFO } from "./fragments";
 
 // Use Graphql mutation in client side to update profile

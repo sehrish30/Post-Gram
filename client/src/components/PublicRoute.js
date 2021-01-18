@@ -1,11 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-
-import { Route, Link } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { AuthContext } from "../context/auth";
-
-import { useLocation, useHistory } from "react-router-dom";
-import classNames from "classnames";
-import LoadingToRedirect from "./LoadingToRedirect";
 
 // This component protect logged in user from preventing him to access
 // login and register routes

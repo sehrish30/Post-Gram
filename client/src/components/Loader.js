@@ -9,7 +9,7 @@ const override = css`
 `;
 
 const Loader = ({ loading }) => {
-  const [color, setColor] = useState("#16c79a");
+  const [color] = useState("#16c79a");
   return (
     <PropagateLoader color={color} loading={loading} css={override} size={15} />
   );

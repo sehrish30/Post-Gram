@@ -11,8 +11,6 @@ const totalPosts = () => posts.length;
 
 // return array of posts
 const allPosts = async (parents, args, { req }) => {
-  debugger;
-  await authCheck(req);
   return posts;
 };
 

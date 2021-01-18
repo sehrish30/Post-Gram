@@ -11,7 +11,7 @@ const firebaseConfig = {
   measurementId: "G-DY40EK13CE",
 };
 
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();

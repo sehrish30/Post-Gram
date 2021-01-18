@@ -19,6 +19,7 @@ import PublicRoute from "./components/PublicRoute";
 
 //Import Contextnpm install node-sass@4.14.1
 import { AuthContext } from "./context/auth";
+import Users from "./pages/Users";
 
 console.log(process.env.REACT_APP_GRAPHQL_ENDPOINT);
 
@@ -59,6 +60,7 @@ const App = () => {
       <Nav />
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/users" component={Users} />
         <PublicRoute exact path="/register" component={Register} />
         <PublicRoute exact path="/login" component={Login} />
         <Route exact path="/password/forgot" component={PasswordForgot} />
