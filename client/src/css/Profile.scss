@@ -1,5 +1,58 @@
 @import "./utility.scss";
 
 .profile {
-  background-color: color();
+  background: linear-gradient(
+    219deg,
+    rgba(15, 48, 87, 1) 0%,
+    rgba(0, 88, 122, 1) 35%,
+    rgba(0, 136, 145, 1) 100%
+  );
+  animation: gradient 10s ease infinite;
+
+  &-form {
+    color: red;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background: linear-gradient(
+      6deg,
+      rgba(15, 48, 87, 1) 0%,
+      rgba(0, 88, 122, 1) 35%,
+      rgba(0, 136, 145, 1) 100%
+    );
+  }
+  50% {
+    background: linear-gradient(
+      187deg,
+      rgba(15, 48, 87, 1) 0%,
+      rgba(0, 88, 122, 1) 35%,
+      rgba(0, 136, 145, 1) 100%
+    );
+  }
+  100% {
+    background: linear-gradient(
+      328deg,
+      rgba(15, 48, 87, 1) 0%,
+      rgba(0, 88, 122, 1) 35%,
+      rgba(0, 136, 145, 1) 100%
+    );
+  }
+}
+
+.col-form-label {
+  color: color(quaternary);
+  font-weight: bold;
+}
+
+.form-control,
+.form-control:focus {
+  background-color: color(lightFresh);
+  color: color(primary);
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.form-control:disabled {
+  background-color: lighten(color(lightFresh), 10%);
 }

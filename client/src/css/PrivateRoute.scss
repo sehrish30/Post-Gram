@@ -5,22 +5,21 @@
 }
 
 .side {
-  background: linear-gradient(
-    26deg,
-    #0f3057 17.74%,
-    #00587a 17.74%,
-    #00587a 33.87%,
-    #2a6b73 33.87%,
-    #2a6b73 50%,
-    #0f3057 50%,
-    #0f3057 67.74%,
-    #00587a 67.74%,
-    #00587a 83.87%,
-    #2a6b73 83.87%,
-    #2a6b73 100%
-  );
-  background-size: 141.43px 68.98px;
-  height: 50rem;
+  color: color(quaternary) !important;
+  font-weight: bold;
+  &::after {
+    content: "";
+    background: color(primary) url("../images/squares.png") no-repeat;
+    opacity: 0.8;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+    height: 120%;
+  }
+  height: 50%;
 
   @include response(md) {
     height: 10rem;
@@ -37,4 +36,8 @@
 
 .container {
   padding-left: 0 !important;
+}
+
+.row {
+  --bs-gutter-x: 0rem;
 }

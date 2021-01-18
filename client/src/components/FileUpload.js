@@ -96,7 +96,7 @@ const FileUpload = ({ setLoading, values, setValues }) => {
   };
 
   return (
-    <div className="row">
+    <div className="row p-4">
       <div className="col-lg-4">
         <div className="form-group">
           <label htmlFor="image" className="col-sm-2 mt-0 col-form-label">

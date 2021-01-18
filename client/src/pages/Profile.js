@@ -80,7 +80,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="container p-5 profile">
+    <div className="container p-4 profile">
       <FileUpload
         setValues={setValues}
         setLoading={setLoading}

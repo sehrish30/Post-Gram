@@ -1,11 +1,13 @@
 import Loader from "../Loader";
 import Toast from "../Toast";
 
+import "../../css/Profile.scss";
+
 const UserProfile = ({ handleSubmit, handleChange, loading, values }) => (
-  <form onSubmit={handleSubmit} className="row g-3 mt-4">
+  <form onSubmit={handleSubmit} className="row g-3 mt-4 p-4 profile-form">
     <Toast />
     <div className="form-group">
-      <label htmlFor="username" className="col-sm-2 mt-0 col-form-label">
+      <label htmlFor="username" className=" col-sm-2 mt-0 col-form-label">
         Username
       </label>
       <div className="col-sm-10 ">
