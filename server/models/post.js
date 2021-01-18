@@ -14,6 +14,7 @@ const postSchema = new mongoose.Schema(
         default: "https://via.placeholder.com/200x200.png?text=Post",
       },
       public_id: {
+        type: String,
         default: Date.now,
       },
     },

@@ -4,11 +4,13 @@ const { gql } = require("apollo-server-express");
 
 // put types on top and queries down
 // exclamation mark to make sure it is not null
+// Image type is in auth.js while ID type is from mongo
 module.exports = gql`
   type Post {
-    id: ID!
-    title: String!
-    description: String!
+    _id: ID!
+    content: String!
+    image: Image
+    postedBy: User
   }
   type Query {
     totalPosts: Int!
@@ -16,11 +18,11 @@ module.exports = gql`
   }
   # : Post! means we have to return new post created
   # input type let us pass Query variables
-  input PostInput {
-    title: String!
-    description: String!
+  input PostCreateInput {
+    content: String!
+    image: ImageInput
   }
   type Mutation {
-    newPost(input: PostInput!): Post!
+    postCreate(input: PostCreateInput!): Post!
   }
 `;

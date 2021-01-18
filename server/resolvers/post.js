@@ -1,43 +1,43 @@
 const { gql } = require("apollo-server-express");
 const { posts } = require("../temp");
 const { authCheck } = require("../helpers/auth");
+const Post = require("../models/post");
+const User = require("../models/user");
 
 /*--------------------------
        Queries
 ---------------------------*/
 
-// return length
-const totalPosts = () => posts.length;
-
-// return array of posts
-const allPosts = async (parents, args, { req }) => {
-  return posts;
-};
-
 /*--------------------------
        Mutation
 ---------------------------*/
 
-// parent -> parent mutation type e.g newPost
-// args -> e.g args.title but you can also destructure it
-const newPost = (parent, args, context) => {
-  // create a new post Object
+// populate because ref to that particular model
+const postCreate = async (parent, args, { req }) => {
+  const currentUser = await authCheck(req);
+  console.log("WHAT", currentUser);
 
-  const post = {
-    id: posts.length + 1,
+  // validation
+  if (args.input.content === "") throw new Error("Content is required");
+
+  const currentUserFromDb = await User.findOne({
+    email: currentUser.email,
+  });
+
+  // instantiating new post using post model
+  let newPost = await new Post({
     ...args.input,
-  };
-  // push new post object to posts array
-  posts.push(post);
-  return post;
+    postedBy: currentUserFromDb.uid,
+  })
+    .save()
+    .then((post) => post.populate("postedBy", "_id username").execPopulate());
+
+  return newPost;
 };
 
 module.exports = {
-  Query: {
-    totalPosts,
-    allPosts,
-  },
+  Query: {},
   Mutation: {
-    newPost,
+    postCreate,
   },
 };

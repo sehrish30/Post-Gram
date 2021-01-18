@@ -2,7 +2,6 @@ const { gql } = require("apollo-server-express");
 const { authCheck } = require("../helpers/auth");
 const User = require("../models/user");
 const shortid = require("shortid");
-const { DateTimeResolver } = require("graphql-scalars");
 
 // grab the cocntext req and res
 // context also passed in graphql apollo server
