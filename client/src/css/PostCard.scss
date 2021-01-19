@@ -1,0 +1,21 @@
+@import "./utility.scss";
+
+.post-card {
+  width: 18rem;
+  height: 18rem;
+  background-color: color(fresh);
+  color: color(lightFresh);
+  &-img {
+    object-fit: contain;
+  }
+}
+.post-text {
+  font-style: italic;
+}
+
+.createpost-heading {
+  text-align: center;
+  color: color(lightFresh);
+  font-weight: bold;
+  font-size: size(lg);
+}
