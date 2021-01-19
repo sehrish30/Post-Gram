@@ -1,6 +1,5 @@
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../context/auth";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { POST_CREATE } from "../../components/graphql/mutations";
@@ -34,9 +33,26 @@ const Post = () => {
 
   // Mutation
   const [postCreate] = useMutation(POST_CREATE, {
-    // **update cache
-    update: (data) => console.log(data),
-    onError: (err) => console.log(err),
+    // to update UI in Graphql apollo you have update cache because no useState hooks
+    // read query from cache and write query to cache
+    // data writes back to cache so when cache updates post updates
+    // readQuery method enable you to execute GraphQL operations
+    // on the cache as though you're interacting with a GraphQL server.
+    update: (cache, { data: { postCreate } }) => {
+      const { postsByUser } = cache.readQuery({
+        query: POSTS_BY_USER,
+      });
+
+      // write Query to cache
+      // postCreate (new Post values) merge with all read values
+      cache.writeQuery({
+        query: POSTS_BY_USER,
+        data: {
+          postsByUser: [postCreate, ...postsByUser],
+        },
+      });
+    },
+    onError: (err) => console.error(err.graphQlError[0].message),
   });
 
   const handleSubmit = async (event) => {
