@@ -26,6 +26,7 @@ module.exports = gql`
   type Query {
     allPosts: [Post!]!
     postsByUser: [Post!]!
+    singlePost(postId: String): Post!
   }
 
   type Mutation {
