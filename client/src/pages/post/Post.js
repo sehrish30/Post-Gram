@@ -12,7 +12,6 @@ import Loader from "../../components/Loader";
 import FileUpload from "../../components/FileUpload";
 import Toast from "../../components/Toast";
 import PostCard from "../../components/PostCard";
-import Msg from "../../components/Msg";
 
 const INITIAL_STATE = {
   content: "",

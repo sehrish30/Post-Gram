@@ -21,6 +21,7 @@ import SingleUser from "./pages/SingleUser";
 
 //Import Contextnpm install node-sass@4.14.1
 import { AuthContext } from "./context/auth";
+import PostUpdate from "./pages/post/PostUpdate";
 
 console.log(process.env.REACT_APP_GRAPHQL_ENDPOINT);
 
@@ -75,6 +76,11 @@ const App = () => {
           component={PasswordUpdate}
         />
         <PrivateRoute exact path="/post/create" component={Post} />
+        <PrivateRoute
+          exact
+          path="/post/update/:postId"
+          component={PostUpdate}
+        />
         <PrivateRoute exact path="/profile" component={Profile} />
         <Route exact path="/user/:username" component={SingleUser} />
       </Switch>

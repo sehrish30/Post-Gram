@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Link, useHistory } from "react-router-dom";
 
 import "../css/PostCard.scss";
 
@@ -10,6 +11,8 @@ const PostCard = ({
   showDeleteButton = false,
   handleDelete = (f) => f,
 }) => {
+  let history = useHistory();
+
   console.log(post);
   return (
     <div className="card post-card">
@@ -33,7 +36,11 @@ const PostCard = ({
         )}
 
         {showUpdateButton && (
-          <button type="button" className="btn btn-icon">
+          <button
+            type="button"
+            className="btn btn-icon"
+            onClick={() => history.push(`/post/update/${post._id}`)}
+          >
             <FontAwesomeIcon
               icon={faEdit}
               style={{ color: "#16c79a" }}

@@ -36,3 +36,12 @@ export const POST_DELETE = gql`
     }
   }
 `;
+
+export const POST_UPDATE = gql`
+  mutation postUpdate($input: PostUpdateInput!) {
+    postUpdate(input: $input) {
+      ...postData
+    }
+  }
+  ${POST_DATA}
+`;
