@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 import { useQuery, useMutation } from "@apollo/client";
-import { POST_CREATE } from "../../components/graphql/mutations";
+import { POST_CREATE, POST_DELETE } from "../../components/graphql/mutations";
 import { POSTS_BY_USER } from "../../components/graphql/queries";
 
 // css
@@ -12,6 +12,7 @@ import Loader from "../../components/Loader";
 import FileUpload from "../../components/FileUpload";
 import Toast from "../../components/Toast";
 import PostCard from "../../components/PostCard";
+import Msg from "../../components/Msg";
 
 const INITIAL_STATE = {
   content: "",
@@ -54,6 +55,37 @@ const Post = () => {
     },
     onError: (err) => console.error(err.graphQlError[0].message),
   });
+
+  const [postDelete] = useMutation(POST_DELETE, {
+    update: ({ data }) => {
+      console.log("post delete mutation", data);
+      toast(`Post Deleted`, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 3000,
+        draggablePercent: 60,
+      });
+    },
+    onError: (err) => {
+      console.error(err);
+      toast.error(`Post Delete Failed`, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 3000,
+        draggablePercent: 60,
+      });
+    },
+  });
+
+  const handleDelete = async (postId) => {
+    let answer = window.confirm("Delete?");
+    if (answer) {
+      setLoading(true);
+      postDelete({
+        variables: { postId },
+        refetchQueries: [{ query: POSTS_BY_USER }],
+      });
+    }
+    setLoading(false);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -128,7 +160,12 @@ const Post = () => {
       <div className="px-5 text-center row row-cols-1 row-cols-md-2 g-4">
         {posts?.postsByUser.map((p) => (
           <div className="col-md-4 col-sm-6">
-            <PostCard post={p} />
+            <PostCard
+              handleDelete={handleDelete}
+              post={p}
+              showUpdateButton={true}
+              showDeleteButton={true}
+            />
           </div>
         ))}
       </div>
