@@ -13,8 +13,8 @@ module.exports = gql`
     postedBy: User
   }
   type Query {
-    totalPosts: Int!
     allPosts: [Post!]!
+    postsByUser: [Post!]!
   }
   # : Post! means we have to return new post created
   # input type let us pass Query variables

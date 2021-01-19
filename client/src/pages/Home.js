@@ -11,7 +11,7 @@ const Home = () => {
 
   // access Context from value in AuthContext.provider
   const { state } = useContext(AuthContext);
-  console.log(state.user.token);
+  console.log(state.user?.token);
 
   // To avoid naming conflicts change variables name using :
   const [
