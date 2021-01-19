@@ -58,6 +58,38 @@ const postCreate = async (parent, args, { req }) => {
   return newPost;
 };
 
+const postUpdate = async (parent, args, { req }) => {
+  const currentUser = await authCheck(req);
+
+  // Validation
+  if (args.input.content.trim() === "") throw new Error("Content is required");
+
+  // get current user mongodb based on email
+  const currrentUserFromDb = await User.findOne({
+    email: currentUser.email,
+  }).exec();
+
+  // _id of post to update
+  const postToUpdate = await Post.findOne({ _id: args.input._id }).exec();
+
+  // if currentUser id and id of the post's postedBy user id is same, allow update
+  if (
+    currrentUserFromDb._id.toString() !== postToUpdate.postedBy._id.toString()
+  )
+    throw new Error("Unauthorized action");
+
+  // this method first arg id 2 what you want to update
+  let updatedPost = await Post.findByIdAndUpdate(
+    args.input._id,
+    {
+      ...args.input,
+    },
+    { new: true }
+  ).exec();
+
+  return updatedPost;
+};
+
 module.exports = {
   Query: {
     allPosts,
