@@ -7,10 +7,10 @@
 .side {
   color: color(quaternary) !important;
   font-weight: bold;
+  height: 1000vh;
   &::after {
     content: "";
     background: color(primary) url("../images/squares.png") repeat;
-
     background-size: cover;
     opacity: 0.8;
     top: 0;
@@ -19,7 +19,7 @@
     right: 0;
     position: absolute;
     z-index: -1;
-    height: 200%;
+    height: 500vh;
   }
   height: 50%;
 

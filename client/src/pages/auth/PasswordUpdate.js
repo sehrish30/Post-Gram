@@ -37,17 +37,25 @@ const PasswordUpdate = () => {
 
   return (
     <div className="container p-5">
-      {loading ? <Loader /> : <h1>Password update</h1>}
       <Toast />
-      <AuthForm
-        password={password}
-        setPassword={setPassword}
-        loading={loading}
-        handleSubmit={handleSubmit}
-        name="Update"
-        showPasswordInput={true}
-        hideEmailInput={true}
-      />
+      <div className="container profile py-4">
+        {loading ? (
+          <Loader />
+        ) : (
+          <h1 className="createpost-heading">Password update</h1>
+        )}
+        <div className="col-md-10 px-5">
+          <AuthForm
+            password={password}
+            setPassword={setPassword}
+            loading={loading}
+            handleSubmit={handleSubmit}
+            name="Update"
+            showPasswordInput={true}
+            hideEmailInput={true}
+          />
+        </div>
+      </div>
     </div>
   );
 };

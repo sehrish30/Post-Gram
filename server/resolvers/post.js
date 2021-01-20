@@ -52,6 +52,15 @@ const singlePost = async (parent, args) => {
     .exec();
 };
 
+// $text performs a text search on the content of the fields indexed with a text index.
+// e.g here I want content to be indexed so mention in Model of Post
+// text:  true
+const search = async (parent, { query }) => {
+  return await Post.find({ $text: { $search: query } })
+    .populate("postedBy", "username")
+    .exec();
+};
+
 /*--------------------------
        Mutation
 ---------------------------*/
@@ -133,6 +142,7 @@ module.exports = {
     postsByUser,
     singlePost,
     totalPosts,
+    search,
   },
   Mutation: {
     postCreate,

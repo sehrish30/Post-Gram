@@ -2,7 +2,7 @@
 .main-bg {
   background: #a0d3c5 url("../images/pattern.svg") repeat;
   background-size: cover;
-  height: 100%;
+  height: 100vh;
   max-width: 100%;
 }
 
@@ -19,4 +19,8 @@
 .disabled-arrow {
   background-color: #c7cfb7 !important;
   pointer-events: none;
+}
+
+.search-bg {
+  height: 100vh;
 }

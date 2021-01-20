@@ -23,6 +23,7 @@ import SingleUser from "./pages/SingleUser";
 import { AuthContext } from "./context/auth";
 import PostUpdate from "./pages/post/PostUpdate";
 import SinglePost from "./pages/post/SinglePost";
+import SearchResults from "./components/SearchResults";
 
 console.log(process.env.REACT_APP_GRAPHQL_ENDPOINT);
 
@@ -85,6 +86,7 @@ const App = () => {
         <Route exact path="/post/:postId" component={SinglePost} />
         <PrivateRoute exact path="/profile" component={Profile} />
         <Route exact path="/user/:username" component={SingleUser} />
+        <Route exact path="/search/:query" component={SearchResults} />
       </Switch>
     </ApolloProvider>
   );
