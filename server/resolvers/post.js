@@ -9,11 +9,25 @@ const User = require("../models/user");
 ---------------------------*/
 
 const allPosts = async (parent, args) => {
+  const currentPage = args.page || 1;
+
+  const perPage = 4;
+
+  // skip when user clicks on page number we want to send different posts
+  // currentPage - 1 means forexample page 2 posts will be from 10 to 20
+
+  // skip to skip prev posts
+  // limit number of posts that appear from mongodb
   return await Post.find({})
+    .skip((currentPage - 1) * perPage)
     .populate("postedBy", "username _id")
+    .limit(perPage)
     .sort({ createdAt: -1 })
     .exec();
 };
+
+const totalPosts = async (parent, args) =>
+  await Post.find({}).estimatedDocumentCount().exec();
 
 const postsByUser = async (parent, args, { req }) => {
   // middleware to check current user authenticity
@@ -113,9 +127,6 @@ const postDelete = async (parent, args, { req }) => {
   return deletedPost;
 };
 
-const totalPosts = async (parent, args) =>
-  await Post.find({}).estimatedDocumentCount().exec();
-
 module.exports = {
   Query: {
     allPosts,
@@ -138,6 +149,18 @@ mutation postCreate($input: PostCreateInput!){
       url
       public_id
     }
+    postedBy{
+      username
+    }
+  }
+}
+*/
+
+/* Example of query in 
+query{
+  allPosts(page: 2){
+    _id
+    content
     postedBy{
       username
     }

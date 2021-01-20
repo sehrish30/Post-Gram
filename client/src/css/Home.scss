@@ -5,3 +5,18 @@
   height: 100%;
   max-width: 100%;
 }
+
+.active-page,
+.active-page:hover {
+  background-color: color(secondary);
+  color: color(quaternary);
+}
+
+.arrow {
+  background-color: #2a6b73 !important;
+}
+
+.disabled-arrow {
+  background-color: #c7cfb7 !important;
+  pointer-events: none;
+}

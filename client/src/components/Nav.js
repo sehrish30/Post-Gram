@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import { AuthContext } from "../context/auth";
 
 import "../css/Nav.scss";
+import Search from "./Search";
 
 const Nav = () => {
   const { state, dispatch } = useContext(AuthContext);
@@ -88,21 +89,7 @@ const Nav = () => {
               {/* <!-- Navbar dropdown --> */}
             </ul>
             {/* <!-- Search form --> */}
-            <form className="d-flex input-group w-auto">
-              <input
-                type="search"
-                className="form-control"
-                placeholder="..."
-                aria-label="Search"
-              />
-              <button
-                className="btn"
-                type="button"
-                data-mdb-ripple-color="dark"
-              >
-                Search
-              </button>
-            </form>
+            <Search />
           </div>
           {/* <!-- Collapsible wrapper --> */}
         </div>
