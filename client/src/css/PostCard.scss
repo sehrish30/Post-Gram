@@ -1,7 +1,7 @@
 @import "./utility.scss";
 
 .post-card {
-  width: 18rem;
+  // width: 18rem;
   background-color: color(fresh);
   color: color(lightFresh);
   &-img {
@@ -20,5 +20,5 @@
 }
 
 .btn-icon {
-  background-color: color(primary);
+  background-color: color(primary) !important;
 }

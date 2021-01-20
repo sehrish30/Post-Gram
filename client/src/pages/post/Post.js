@@ -156,7 +156,7 @@ const Post = () => {
       />
 
       {createForm()}
-      <div className="px-5 text-center row row-cols-1 row-cols-md-2 g-4">
+      <div className="px-5 text-center row row-cols-1 row-cols-md-2 g-4 side">
         {posts?.postsByUser.map((p) => (
           <div className="col-md-4 col-sm-6">
             <PostCard

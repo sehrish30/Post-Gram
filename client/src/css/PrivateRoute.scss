@@ -9,7 +9,9 @@
   font-weight: bold;
   &::after {
     content: "";
-    background: color(primary) url("../images/squares.png") no-repeat;
+    background: color(primary) url("../images/squares.png") repeat;
+
+    background-size: cover;
     opacity: 0.8;
     top: 0;
     left: 0;

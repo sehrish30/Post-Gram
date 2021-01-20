@@ -4,6 +4,9 @@ import { useContext } from "react";
 // Context
 import { AuthContext } from "../context/auth";
 import { GET_ALL_POSTS } from "../components/graphql/queries";
+import PostCard from "../components/PostCard";
+
+import "../css/Home.scss";
 
 const Home = () => {
   // Return all posts query
@@ -26,18 +29,11 @@ const Home = () => {
   if (error) return <p className="p-5">Something is wrong...</p>;
 
   return (
-    <div className="container">
+    <div className="container main-bg m-0 p-0">
       <div className="row p-5">
         {data?.allPosts.map((p) => (
-          <div className="col-md-4" key={p._id}>
-            <div className="card">
-              <div className="card-body">
-                <div className="card-title">
-                  <h4>@{p.postedBy?.username}</h4>
-                </div>
-                <p className="card-text">{p.content}</p>
-              </div>
-            </div>
+          <div className="col-md-3 py-2">
+            <PostCard post={p} />
           </div>
         ))}
       </div>
