@@ -146,7 +146,9 @@ const postDelete = async (parent, args, { req, pubsub }) => {
   if (currentUserFromDb._id.toString() !== postToDelete.postedBy._id.toString())
     throw new Error("Unauthorized action");
 
-  let deletedPost = await Post.findByIdAndDelete({ _id: args.postId }).exec();
+  let deletedPost = await Post.findByIdAndDelete({ _id: args.postId })
+    .exec()
+    .then((post) => post.populate("postedBy", "_id username").execPopulate());
 
   pubsub.publish(POST_DELETED, {
     postDeleted: deletedPost,

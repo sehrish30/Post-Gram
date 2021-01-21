@@ -89,6 +89,49 @@ const Home = () => {
          POST DELETED SUBS
   --------------------------------- */
 
+  const { data: deletedPost } = useSubscription(POST_DELETED, {
+    onSubscriptionData: async ({
+      client: { cache },
+      subscriptionData: { data },
+    }) => {
+      // readQuery from cache
+      const { allPosts } = cache.readQuery({
+        query: GET_ALL_POSTS,
+        variables: { page },
+      });
+
+      // filter out the post deleted
+      // data has the post deleted based on our resolver
+      // we get post back
+      let filteredPosts = allPosts.filter(
+        (p) => p._id !== data.postDeleted._id
+      );
+
+      // Take all cached posts and newly created post that we got
+      // from subscription
+      cache.writeQuery({
+        query: GET_ALL_POSTS,
+        variables: { page },
+        data: {
+          allPosts: filteredPosts,
+        },
+      });
+
+      // refetch all posts to update ui
+      fetchPosts({
+        variables: { page },
+        refetchQueries: [{ query: GET_ALL_POSTS, variables: { page } }],
+      });
+
+      // show toast notifications
+      toast.error(`Post Deleted`, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 3000,
+        draggablePercent: 60,
+      });
+    },
+  });
+
   // access Context from value in AuthContext.provider
   const { state } = useContext(AuthContext);
   console.log(state.user?.token);
