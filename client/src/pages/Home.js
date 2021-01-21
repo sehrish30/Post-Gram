@@ -11,21 +11,7 @@ import PostPagination from "../components/PostPagination";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import Toast from "../components/Toast";
-
-const POST_ADDED = gql`
-  subscription {
-    postAdded {
-      _id
-      content
-      image {
-        url
-      }
-      postedBy {
-        username
-      }
-    }
-  }
-`;
+import { POST_ADDED } from "../components/graphql/subscriptions";
 
 const Home = () => {
   const [page, setPage] = useState(1);
