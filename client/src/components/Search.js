@@ -9,6 +9,7 @@ const Search = () => {
     e.preventDefault();
 
     history.push(`/search/${query}`);
+    setQuery("");
   };
   return (
     <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>

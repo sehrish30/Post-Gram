@@ -13,7 +13,7 @@ const AuthForm = ({
   hideEmailInput = false,
 }) => {
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form className="form form-register" onSubmit={handleSubmit}>
       <div className="form-group">
         {disable ? (
           <>

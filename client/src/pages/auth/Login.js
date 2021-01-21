@@ -87,7 +87,7 @@ const Login = () => {
     <div className=" p-5 register text-center body">
       <Toast />
       <div className="row">
-        <div className="col-md-8">
+        <div className="col-lg-8 col-sm-10 form-register ">
           <AuthForm
             email={email}
             password={password}
@@ -101,7 +101,7 @@ const Login = () => {
           <Link to="/password/forgot">Forgot Password?</Link>
         </div>
 
-        <div className="col-md-4 mt-4">
+        <div className="col-lg-4 col-sm-10 mt-4 px-2">
           <FacebookLoginButton size="40px" onClick={facebookLogin} />
           <GoogleLoginButton size="40px" onClick={googleLogin} />
         </div>
@@ -109,7 +109,7 @@ const Login = () => {
       <div className="row text-center">
         {loading ? <Loader loading={loading} /> : null}
       </div>
-      <div className="row background mt-4">
+      {/* <div className="row background mt-4">
         <div className="col-md-12">
           <img
             className="background-img"
@@ -117,7 +117,7 @@ const Login = () => {
             alt="watery background"
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

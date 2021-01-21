@@ -169,10 +169,6 @@ const Home = () => {
         ))}
       </div>
 
-      <hr />
-      {/* {JSON.stringify(posts)} */}
-      {JSON.stringify(newPost)}
-      {/* <strong>{JSON.stringify(state.user)}</strong> */}
       <PostPagination page={page} setPage={setPage} postCount={postCount} />
     </div>
   );

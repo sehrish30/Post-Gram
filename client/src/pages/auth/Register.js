@@ -45,7 +45,7 @@ const Register = () => {
   };
 
   return (
-    <div className=" p-5 register text-center body">
+    <div className=" register text-center body p-5">
       {loading ? <Loader loading={loading} /> : <h4>Register</h4>}
 
       <Toast />

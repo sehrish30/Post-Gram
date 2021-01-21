@@ -15,7 +15,7 @@ const PublicRoute = ({ ...rest }) => {
     }
   }, [state.user]);
   return (
-    <div className="container-fluid p-5">
+    <div className="container-fluid p-0">
       <Route {...rest} />
     </div>
   );
