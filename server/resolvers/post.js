@@ -97,7 +97,7 @@ const postCreate = async (parent, args, { req, pubsub }) => {
   return newPost;
 };
 
-const postUpdate = async (parent, args, { req }) => {
+const postUpdate = async (parent, args, { req, pubsub }) => {
   const currentUser = await authCheck(req);
 
   // Validation
@@ -127,10 +127,14 @@ const postUpdate = async (parent, args, { req }) => {
   )
     .exec()
     .then((post) => post.populate("postedBy", "_id username").execPopulate());
+
+  pubsub.publish(POST_UPDATED, {
+    updatedPost,
+  });
   return updatedPost;
 };
 
-const postDelete = async (parent, args, { req }) => {
+const postDelete = async (parent, args, { req, pubsub }) => {
   const currentUser = await authCheck(req);
 
   const currentUserFromDb = await User.findOne({
@@ -143,6 +147,10 @@ const postDelete = async (parent, args, { req }) => {
     throw new Error("Unauthorized action");
 
   let deletedPost = await Post.findByIdAndDelete({ _id: args.postId }).exec();
+
+  pubsub.publish(POST_DELETED, {
+    deletedPost,
+  });
   return deletedPost;
 };
 
@@ -154,6 +162,8 @@ const postDelete = async (parent, args, { req }) => {
 // whenever POST_ADDED event happens we are going to execute pubsub pattern so we have realtime subscription
 // so we need to send some data with this event
 const POST_ADDED = "POST_ADDED";
+const POST_UPDATED = "POST_UPDATED";
+const POST_DELETED = "POST_DELETED";
 
 module.exports = {
   Query: {
@@ -172,6 +182,14 @@ module.exports = {
     postAdded: {
       subscribe: (parent, args, { pubsub }) =>
         pubsub.asyncIterator([POST_ADDED]),
+    },
+    postUpdated: {
+      subscribe: (parent, args, { pubsub }) =>
+        pubsub.asyncIterator([POST_UPDATED]),
+    },
+    postDeleted: {
+      subscribe: (parent, args, { pubsub }) =>
+        pubsub.asyncIterator([POST_DELETED]),
     },
   },
 };
