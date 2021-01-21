@@ -129,7 +129,7 @@ const postUpdate = async (parent, args, { req, pubsub }) => {
     .then((post) => post.populate("postedBy", "_id username").execPopulate());
 
   pubsub.publish(POST_UPDATED, {
-    updatedPost,
+    postUpdated: updatedPost,
   });
   return updatedPost;
 };
@@ -149,7 +149,7 @@ const postDelete = async (parent, args, { req, pubsub }) => {
   let deletedPost = await Post.findByIdAndDelete({ _id: args.postId }).exec();
 
   pubsub.publish(POST_DELETED, {
-    deletedPost,
+    postDeleted: deletedPost,
   });
   return deletedPost;
 };

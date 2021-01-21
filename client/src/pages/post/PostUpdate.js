@@ -101,7 +101,7 @@ const PostUpdate = () => {
             className="mt-4 mb-4 box text-center"
             disabled={loading || !content}
           >
-            Post
+            Update
           </button>
         </div>
       )}

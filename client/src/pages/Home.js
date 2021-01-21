@@ -11,7 +11,11 @@ import PostPagination from "../components/PostPagination";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import Toast from "../components/Toast";
-import { POST_ADDED } from "../components/graphql/subscriptions";
+import {
+  POST_ADDED,
+  POST_UPDATED,
+  POST_DELETED,
+} from "../components/graphql/subscriptions";
 
 const Home = () => {
   const [page, setPage] = useState(1);
@@ -20,6 +24,9 @@ const Home = () => {
     variables: { page },
   });
 
+  /*-------------------------------
+     POST ADDED SUBS
+  --------------------------------- */
   // subscription
   // In this func we will access to local cache and subs data
   const { data: newPost } = useSubscription(POST_ADDED, {
@@ -58,6 +65,30 @@ const Home = () => {
     },
   });
 
+  /*-------------------------------
+         POST UPDATED SUBS
+  --------------------------------- */
+
+  // automatically updated
+  // Acc to docs if id is returned and if id matches with id in the cache
+  // then update particular info about that post
+  const { data: updatedPost } = useSubscription(POST_UPDATED, {
+    onSubscriptionData: () => {
+      // show toast notifications
+      toast(`Post Updated`, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 3000,
+        draggablePercent: 60,
+      });
+    },
+  });
+
+  // no read or write to cache because alreasy in cache
+
+  /*-------------------------------
+         POST DELETED SUBS
+  --------------------------------- */
+
   // access Context from value in AuthContext.provider
   const { state } = useContext(AuthContext);
   console.log(state.user?.token);
@@ -86,8 +117,8 @@ const Home = () => {
 
   return (
     <div className="container main-bg m-0 p-0">
-      <Toast />
       <div className="row p-5">
+        <Toast />
         {data?.allPosts.map((p) => (
           <div className="col-md-3 py-2">
             <PostCard post={p} />
