@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // GRAPHQL
 import { useLazyQuery } from "@apollo/client";

@@ -1,8 +1,19 @@
 import { useContext } from "react";
-import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
-import { ApolloProvider } from "@apollo/client";
 import { Switch, Route } from "react-router-dom";
+
+// Graphql
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  ApolloProvider,
+  ApolloLink,
+} from "@apollo/client";
+import { split } from "apollo-link";
 import { setContext } from "@apollo/client/link/context";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { SubscriptionClient } from "subscriptions-transport-ws";
+import { getMainDefinition } from "apollo-utilities";
 
 // IMPORT COMPONENTS
 import Home from "./pages/Home";
@@ -31,9 +42,30 @@ const App = () => {
   const { state } = useContext(AuthContext);
   const { user } = state;
 
+  /*---------------------------------
+       APOLLO CLIENT
+  --------------------------------- */
+
+  // 1) Create Websocket Link
+  // uri is the endpoint to connect
+  const wsLink = new WebSocketLink({
+    uri: process.env.REACT_APP_GRAPHQL_WS_ENDPOINT,
+    options: {
+      reconnect: true,
+    },
+  });
+
+  // 2) Create http Link
+  // send req headers as well if any
+  // since we are using apollo client we can set context like this
+  // now for each req auth token will be sent in headers by link
+  // httpLink is the apolloLink
+
   const httpLink = createHttpLink({
     uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
   });
+
+  // 3) SetContext for authcontext
   const authLink = setContext((_, { headers }) => {
     // // get the authentication token from local storage if it exists
     // const token = localStorage.getItem('token');
@@ -45,14 +77,29 @@ const App = () => {
     };
   });
 
-  // send req headers as well if any
-  // since we are using apollo client we can set context like this
-  // now for each req auth token will be sent in headers by link
-  // httpLink is the apolloLink
+  // 4) Concat http and authtoken Link
+  const httpAuthLink = authLink.concat(httpLink);
+
+  // 5) Use split to split http link or websocket Link
+  const link = split(
+    ({ query }) => {
+      // split link based on operation type
+      // If the definition type is subscription then it will be using
+      // webSocket otherwise it will use http
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === "OperationDefinition" &&
+        definition.operation === "subscription"
+      );
+    },
+    wsLink,
+    httpAuthLink
+  );
+
+  // 6) Create Apollo Client
   const client = new ApolloClient({
-    uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
     cache: new InMemoryCache(),
-    link: authLink.concat(httpLink),
+    link,
   });
 
   /* server can use that header to authenticate the user and attach it to the GraphQL 
