@@ -66,7 +66,7 @@ const search = async (parent, { query }) => {
 ---------------------------*/
 
 // populate because ref to that particular model
-const postCreate = async (parent, args, { req }) => {
+const postCreate = async (parent, args, { req, pubsub }) => {
   const currentUser = await authCheck(req);
 
   // validation
@@ -83,6 +83,16 @@ const postCreate = async (parent, args, { req }) => {
   })
     .save()
     .then((post) => post.populate("postedBy", "_id username").execPopulate());
+
+  // sending data wiith POSTADDED event so
+  // whenever this event is published we want to send
+  // this newly created post
+  // We are returing new post but we are also here we are publishing this post
+  // at an event and passing newly created Post as data using postAdded subscription
+  // this will be available in apollo Client
+  // As a result we will be able to grab newPost contentusing postAdded subs
+  // then you can make another query to update UI in frontend or show alert etc
+  pubsub.publish(POST_ADDED, { postAdded: newPost });
 
   return newPost;
 };
@@ -136,6 +146,15 @@ const postDelete = async (parent, args, { req }) => {
   return deletedPost;
 };
 
+/*--------------------------
+      Subscription
+---------------------------*/
+
+// used as event
+// whenever POST_ADDED event happens we are going to execute pubsub pattern so we have realtime subscription
+// so we need to send some data with this event
+const POST_ADDED = "POST_ADDED";
+
 module.exports = {
   Query: {
     allPosts,
@@ -148,6 +167,12 @@ module.exports = {
     postCreate,
     postUpdate,
     postDelete,
+  },
+  Subscription: {
+    postAdded: {
+      subscribe: (parent, args, { pubsub }) =>
+        pubsub.asyncIterator([POST_ADDED]),
+    },
   },
 };
 

@@ -73,11 +73,11 @@ const resolvers = mergeResolvers(
 // pass type and resolver
 // merge all files in typeDefs and pass to apollo Server
 // context makes req and res available to resolvers
-// also make pubsub available in context
+// also make pubsub available in context (return it)
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req, res, pubsub }) => ({ req, res, pubsub }),
+  context: ({ req, res }) => ({ req, res, pubsub }),
 });
 
 /* Apply express app as middleware to appolo server
@@ -147,7 +147,7 @@ app.post("/removeimage", authCheckMiddleware, (req, res) => {
 });
 
 // listen app on port number
-app.listen(process.env.PORT, () => {
+httpserver.listen(process.env.PORT, () => {
   console.log(`server is ready at http:// ${process.env.PORT}`);
   console.log(
     `graphql server is ready at http:// ${process.env.PORT} ${apolloServer.graphqlPath}`
