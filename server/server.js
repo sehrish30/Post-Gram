@@ -1,5 +1,5 @@
 const express = require("express");
-const { ApolloServer } = require("apollo-server-express");
+const { ApolloServer, PubSub } = require("apollo-server-express");
 const http = require("http");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -10,6 +10,9 @@ const bodyParser = require("body-parser");
 const cloudinary = require("cloudinary");
 
 const { authCheckMiddleware } = require("./helpers/auth");
+
+// Publish and Subsscribe
+const pubsub = new PubSub();
 
 // use environmental variables
 require("dotenv").config();
@@ -70,10 +73,11 @@ const resolvers = mergeResolvers(
 // pass type and resolver
 // merge all files in typeDefs and pass to apollo Server
 // context makes req and res available to resolvers
+// also make pubsub available in context
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req, res }) => ({ req, res }),
+  context: ({ req, res, pubsub }) => ({ req, res, pubsub }),
 });
 
 /* Apply express app as middleware to appolo server
@@ -85,6 +89,9 @@ apolloServer.applyMiddleware({
 
 // create a server
 const httpserver = http.createServer(app);
+
+// Integrate with http so http servers provide Graphql subscriptions
+apolloServer.installSubscriptionHandlers(httpserver);
 
 // rest endpoint
 // when authCheck is true next() will execute res.json line
@@ -144,6 +151,11 @@ app.listen(process.env.PORT, () => {
   console.log(`server is ready at http:// ${process.env.PORT}`);
   console.log(
     `graphql server is ready at http:// ${process.env.PORT} ${apolloServer.graphqlPath}`
+  );
+
+  // After this we are ready to install pubsub pattern in our resolvers to implmement subscriptions
+  console.log(
+    `Subscription is ready at http:// ${process.env.PORT} ${apolloServer.subscriptionsPath}`
   );
 });
 
