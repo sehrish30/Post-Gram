@@ -1,8 +1,8 @@
-import { useQuery, useLazyQuery, useSubscription, gql } from "@apollo/client";
-import { useContext, useState } from "react";
+import { useQuery, useLazyQuery, useSubscription } from "@apollo/client";
+import { useState } from "react";
 
 // Context
-import { AuthContext } from "../context/auth";
+
 import { GET_ALL_POSTS, TOTAL_POSTS } from "../components/graphql/queries";
 import PostCard from "../components/PostCard";
 
@@ -132,10 +132,6 @@ const Home = () => {
     },
   });
 
-  // access Context from value in AuthContext.provider
-  const { state } = useContext(AuthContext);
-  console.log(state.user?.token);
-
   // To avoid naming conflicts change variables name using :
   const [
     fetchPosts,
@@ -156,14 +152,13 @@ const Home = () => {
 
   // HANDLE ERROR
   if (error) return <p className="p-5">Something is wrong...</p>;
-  console.log(newPost);
 
   return (
     <div className="container main-bg m-0 p-0">
       <div className="row p-5">
         <Toast />
         {data?.allPosts.map((p) => (
-          <div className="col-md-3 py-2">
+          <div className="col-md-3 py-2" key={p._id}>
             <PostCard post={p} />
           </div>
         ))}

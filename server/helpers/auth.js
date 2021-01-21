@@ -10,7 +10,7 @@ admin.initializeApp({
 // AUTHENTICATION CHECK IN GRAPHQL RESOLVERS
 exports.authCheck = async (req) => {
   try {
-    console.log(req.headers.authtoken);
+    // console.log(req.headers.authtoken);
     const currentUser = await admin.auth().verifyIdToken(req.headers.authtoken);
     console.info("CURRENT USER", currentUser);
     return currentUser;

@@ -7,7 +7,7 @@ import "../css/UserCard.scss";
 
 const UserCard = ({ user, show }) => {
   const { username, images, about, name, email } = user;
-  console.log(images);
+ 
   return (
     <div className="card mb-3 user text-center main-card">
       <div className="row g-0">

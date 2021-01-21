@@ -13,7 +13,6 @@ const PostCard = ({
 }) => {
   let history = useHistory();
 
-  console.log(post);
   return (
     <div className="card post-card">
       <img

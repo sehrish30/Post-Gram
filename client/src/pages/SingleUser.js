@@ -30,7 +30,7 @@ const SingleUser = () => {
   const { loading, data } = useQuery(PUBLIC_PROFILE, {
     variables: { username: username },
   });
-  console.log(data?.publicProfile);
+  // console.log(data?.publicProfile);
   if (loading)
     return (
       <div className="pt-4 container text-center load">

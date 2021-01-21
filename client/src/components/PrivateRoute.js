@@ -21,7 +21,7 @@ const PrivateRoute = ({ ...rest }) => {
   }, [state.user]);
 
   if (location.pathname === "/post/create") {
-    console.log(location.pathname);
+    // console.log(location.pathname);
   }
 
   /* DYNAMIC CLASSES */

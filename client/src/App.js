@@ -7,12 +7,11 @@ import {
   InMemoryCache,
   createHttpLink,
   ApolloProvider,
-  ApolloLink,
 } from "@apollo/client";
 import { split } from "apollo-link";
 import { setContext } from "@apollo/client/link/context";
 import { WebSocketLink } from "@apollo/client/link/ws";
-import { SubscriptionClient } from "subscriptions-transport-ws";
+
 import { getMainDefinition } from "apollo-utilities";
 
 // IMPORT COMPONENTS
